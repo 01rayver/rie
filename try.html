@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>E-Library Vault</title>
+
+  <style>
+    body {
+      margin: 0;
+      color: #fff;
+      padding: 20px 25px;
+      position: relative;
+    }
+    header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .search-bar {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+      padding: 5px;
+    }
+    .search-bar input[type="text"] {
+      padding: 5px;
+      font-size: 16px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      outline: none;
+    }
+    .search-bar button {
+      padding: 5px 10px;
+      font-size: 16px;
+      border: none;
+      background: transparent;
+      color: #fff;
+      cursor: pointer;
+      outline: none;
+      display: flex;
+      align-items: center;
+    }
+    .search-bar button svg {
+      width: 20px;
+      height: 20px;
+      fill: #fff;
+    }
+    .hidden {
+      display: none;
+    }
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.8);
+      border-radius: 10px;
+    }
+    form label {
+      font-weight: bold;
+    }
+    .logo {
+      width: 150px;
+      height: auto;
+    }
+    .video-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: -1;
+    }
+    .video-container video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .main-content {
+      position: relative;
+      padding: 20px;
+      color: white;
+    }
+    /* Navigation Container */
+.navigation {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+}
+
+/* Navigation List */
+.navigation ul {
+    display: flex;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+    list-style: none; /* Tinatanggal ang bullet points */
+}
+
+/* Button Styling */
+.navigation li button {
+    background-color: transparent; /* Ginagawang transparent */
+    border: 2px solid white; /* Border para magmukhang button */
+    color: white;
+    font-size: 18px;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+    }
+/* Hover Effect */
+    .navigation li button:hover {
+      background-color: white;
+      color: black;
+      transform: translateY(-3px); /* Parang lumulutang */
+    }
+/* Para Siguraduhin Wala Nang Bullet Points */
+    .li {
+      list-style: none;
+    }
+    .content-section {
+      display: none;
+    }
+    .content-section.active {
+      display: block;
+    }
+    .book-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 30px;
+    }
+    .book-item {
+      background: #333;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      font-size: 14px;
+      border-radius: 5px;
+      flex: 0 0 auto;
+      width: 150px;
+    }
+    .book-item img {
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      margin: 0 auto;
+    }
+    .book-item h4 {
+      margin: 5px 0;
+      font-size: 16px;
+      color: #fff;
+    }
+    .book-item p {
+      font-size: 12px;
+      color: #ccc;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    form input, form textarea, form button {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    form button {
+      background: #444;
+      color: white;
+      cursor: pointer;
+    }
+    form button:hover {
+      background: #555;
+    }
+    .features {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.feature-card {
+  width: 300px;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.feature-image {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.feature-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.feature-card:hover img {
+  transform: scale(1.1);
+}
+
+.overlay {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  width: 90%;
+  height: 80%;
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  transition: bottom 0.4s ease-in-out;
+  padding: 20px;
+}
+
+.feature-card:hover .overlay {
+  bottom: 0;
+}
+    .testimonials {
+      background: rgba(0, 0, 0, 0.8);
+      padding: 30px;
+      border-radius: 10px;
+      margin-top: 30px;
+    }
+    .testimonials h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    .testimonial {
+      font-style: italic;
+      margin-bottom: 15px;
+      color: #ccc;
+    }
+    .testimonial::before {
+      content: "“";
+      font-size: 24px;
+      color: #888;
+    }
+    .testimonial::after {
+      content: "”";
+      font-size: 24px;
+      color: #888;
+    }
+    .book-grid > * {
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+    .book-grid:hover > :not(:hover) {
+      opacity: 0.7;
+      transform: scale(0.85);
+    }
+    .oaoFlyIn span:nth-child(even) {
+            animation-name: leoaFlyInTop;
+        }
+
+        @keyframes leoaFlyInTop {
+            0% {
+                transform: translateY(80px);
+                opacity: 0;
+            }
+            50% {
+                transform: translateY(-50px);
+                animation-timing-function: ease-out;
+            }
+        }
+
+        .oaoFlyIn span:nth-child(odd) {
+            animation-name: leoaFlyInBottom;
+        }
+
+        @keyframes leoaFlyInBottom {
+            0% {
+                transform: translateY(-80px);
+                opacity: 0.7;
+            }
+            50% {
+                transform: translateY(50px);
+                animation-timing-function: ease-out;
+            }
+        }
+
+        .oaoFlyIn span {
+            display: inline-block;
+            animation-duration: 2s;
+            animation-fill-mode: both;
+        }
+
+
+
+
+  </style>
+
+</head>
+<body>
+  
+  <header>
+    <img src="logo 2.0.png" class="logo" alt="logo" />
+    <h1 class="oaoFlyIn">
+      <span>E</span><span>-</span><span>L</span><span>I</span><span>B</span><span>R</span><span>A</span><span>R</span><span>Y</span>
+      <span>V</span><span>A</span><span>U</span><span>L</span><span>T</span>
+  </h1>
+  
+    <div class="search-bar">
+      <input type="text" id="searchInput" placeholder="Search books...">
+      <button onclick="performSearch()">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27a6.471 6.471 0 001.48-5.34C15.08 5.59 12.5 3 9.5 3S4 5.59 4 8.5 6.58 14 9.5 14c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C8.01 14 6 11.99 6 9.5S8.01 5 10.5 5 15 7.01 15 9.5 12.99 14 10.5 14z"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="video-container">
+    <video autoplay muted loop playsinline>
+      <source src="video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+  <div class="main-content">
+    <nav class="navigation">
+      <ul>
+        <li><button onclick="showSection('home')">Home</button></li>
+        <li><button onclick="showSection('about')">About</button></li>
+        <li><button onclick="showSection('books')">Books</button></li>
+        <li><button onclick="showSection('contact')">Contact</button></li>
+      </ul>
+    </nav>
+    
+    <section id="home" class="content-section active">
+      <h1>Welcome to E-Library Vault</h1>
+      <p>Your ultimate platform for online education and resources. With a vast collection of books, articles, and interactive tools, we empower learners globally to achieve academic success.</p>
+      <div class="features">
+        <div class="feature-card">
+          <div class="feature-image">
+            <img src="ebook_1.jpg" alt="Interactive Learning">
+            <div class="overlay">
+              <h3>Interactive Learning</h3>
+              <p>Experience quizzes, flashcards, and educational games to make learning enjoyable and engaging.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="feature-card">
+          <div class="feature-image">
+            <img src="ebook_2.jpg" alt="Vast Book Collection">
+            <div class="overlay">
+              <h3>Vast Book Collection</h3>
+              <p>Access thousands of books across multiple subjects, including Science, Math, History, and more.</p>
+            </div>
+          </div>
+        </div>
+      
+        <div class="feature-card">
+          <div class="feature-image">
+            <img src="ebbok_3.jpg" alt="Personalized Recommendations">
+            <div class="overlay">
+              <h3>Personalized Recommendations</h3>
+              <p>Get book suggestions based on your interests and study requirements.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+    </section>
+    <section id="about" class="content-section hidden">
+      <h1>About Us</h1>
+      <p>At E-Library Vault, we aim to transform the learning experience by providing students with high-quality resources to support their academic journey. Whether you're a student, teacher, or lifelong learner, we offer something for everyone.</p>
+      <div class="testimonials">
+        <h3>What Users Are Saying</h3>
+        <p class="testimonial">"E-Library Vault transformed how I study. The interactive tools and diverse book collection are incredible!" - person1.</p>
+        <p class="testimonial">"As a teacher, I love the variety of resources available here. Highly recommend for students and educators alike!" - person2 </p>
+        <p class="testimonial">"This platform makes studying fun and accessible. I can find everything I need in one place." - person3 .</p>
+      </div>
+    </section>
+    <section id="books" class="content-section hidden">
+      <h1>Our Books</h1>
+      <div class="book-grid" id="bookGrid">
+        <div class="book-item">
+          <img src="page_1.jpg" alt="networking">
+          <h4>Adventures of Sherlock Holmes</h4>
+          <p>Author: A. Conan Doyle</p>
+          <a href="https://heyzine.com/flip-book/637e2bcc9a.html" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/nM0wCXcD/Screenshot-2025-03-14-090001.png" alt="comscie">
+          <h4>The Secret Agent</h4>
+          <p>Author: Joseph Conrad</p>
+          <a href="https://heyzine.com/flip-book/bd8ac5ce4d.html" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/d46WXScf/Screenshot-2025-03-14-115126.png" alt="comscie">
+          <h4>The Continuing Evolution </h4>
+          <p>Edited: Chris DiBona, Danese Cooper, Mark Stone</p>
+          <a href="https://heyzine.com/flip-book/33f33ffb5d.html" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/cbq1qLn/computer.jpg" alt="computer">
+          <h4>Computer Networking</h4>
+          <p>Author: James F. Kurose</p>
+          <a href="https://www.goodreads.com/book/show/83847.Computer_Networking" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/k8ggBGP/html-and-css.jpg" alt="html-and-css">
+          <h4>HTML and CSS: Design and Build Websites</h4>
+          <p>Author: Jon Duckett</p>
+          <a href="https://www.goodreads.com/book/show/10361330-html-and-css" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/K2VQfCJ/digital.jpg" alt="digital">
+          <h4>Digital Fundamentals</h4>
+          <p>Author: Thomas L. Floyd</p>
+          <a href="https://www.goodreads.com/book/show/942639.Digital_Fundamentals" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="legacyCode.jpg" alt="legacy-code">
+          <h4>Working effectively with legacy code</h4>
+          <p>Author: Michael C. Feathers</p>
+          <a href="https://openlibrary.org/works/OL5742702W/Working_effectively_with_legacy_code" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/X7c7P4s/mocking-bird.jpg" alt="mocking-bird">
+          <h4>To Kill a Mockingbird</h4>
+          <p>Author: Harper Lee</p>
+          <a href="https://www.goodreads.com/book/show/2657.To_Kill_a_Mockingbird" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/LPNfrrS/1984.jpg" alt="1984">
+          <h4>1984</h4>
+          <p>Author: George Orwell</p>
+          <a href="https://www.goodreads.com/book/show/5470.1984" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="dictionary.jpg" alt="dictionary">
+          <h4>Johnson's dictionary a modern selection</h4>
+          <p>Author: Samuel Johnson</p>
+          <a href="https://openlibrary.org/works/OL14862662W/A_dictionary_of_the_English_language" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="theRise.jpg" alt="the-rise">
+          <h4>The rise of the network society</h4>
+          <p>Author: Manuel Castells</p>
+          <a href="https://openlibrary.org/works/OL2678261W/The_Rise_of_the_Network_Society" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="theArt.jpg" alt="the-art">
+          <h4>The art of computer programming</h4>
+          <p>Author: Donald Knuth</p>
+          <a href="https://openlibrary.org/works/OL257263W/The_art_of_computer_programming" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/nM46d0h/hackers.jpg" alt="hackers">
+          <h4>Social Science Education: Developing Social Scientific Perspectives</h4>
+          <p>Author: Steven Levy</p>
+          <a href="https://www.goodreads.com/book/show/2457315" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/X178g44/google.jpg" alt="google">
+          <h4>How Google Works</h4>
+          <p>Author: Eric Schmidt and Jonathan Rosenberg</p>
+          <a href="https://openlibrary.org/works/OL17276241W/How_Google_Works" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+
+
+        <div class="book-item">
+          <img src="pc_concept.jpg" alt="pc-concept">
+          <h4>Computer Concept</h4>
+          <p>Author:  June Jamrich Parsons and Dan Oja</p>
+          <a href="https://openlibrary.org/works/OL2373712W/Computer_Concepts?edition=key%3A/books/OL24956464M" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="html.jpg" alt="html">
+          <h4>HTML</h4>
+          <p>Author: Wendy Willard</p>
+          <a href="https://openlibrary.org/works/OL6043133W/HTML?edition=key%3A/books/OL9256935M" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/whQxM3Qv/software.jpg" alt="google">
+          <h4>Software Engineering</h4>
+          <p>Author: Roger S. Pressman and Bruce Maxim</p>
+          <a href="https://openlibrary.org/works/OL284009W/Software_Engineering" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/Dgg2KhXs/principles.jpg" alt="google">
+          <h4>Principles of Computer Hardware</h4>
+          <p>Author: Clements, Alan and Alan Clements</p>
+          <a href="https://openlibrary.org/works/OL3344261W/The_principles_of_computer_hardware" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+        <div class="book-item">
+          <img src="https://i.ibb.co/PvG0fHgN/history-of-computer.jpg" alt="google">
+          <h4>The History of Computers</h4>
+          <p>Author:  Chris Oxlade</p>
+          <a href="https://openlibrary.org/works/OL24731166W/The_History_of_Computers" target="_blank" style="color: #00f;">Read more</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="content-section hidden">
+      <h1>Contact Us</h1>
+      
+      <form action="send_email.php" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" rows="5"></textarea>
+        <button type="submit">Send</button>
+      </form>
+    </section>
+  </div>
+
+  <script>
+    function showSection(sectionId) {
+      const sections = document.querySelectorAll('.content-section');
+      sections.forEach(section => {
+        section.classList.remove('active');
+        section.classList.add('hidden');
+      });
+      const activeSection = document.getElementById(sectionId);
+      activeSection.classList.remove('hidden');
+      activeSection.classList.add('active');
+    }
+
+    function performSearch() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const bookItems = document.querySelectorAll('.book-item');
+      let found = false;
+
+      bookItems.forEach(item => {
+        const title = item.querySelector('h4').textContent.toLowerCase();
+        const author = item.querySelector('p').textContent.toLowerCase();
+        if (title.includes(searchInput) || author.includes(searchInput)) {
+          item.style.display = 'block';
+          found = true;
+        } else {
+          item.style.display = 'none';
+        }
+      });
+
+      showSection('books');
+
+      if (!found) {
+        alert('No books found');
+      }
+    }
+  </script>
+</body>
+</html>
